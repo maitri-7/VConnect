@@ -1,0 +1,54 @@
+{% extends 'base.html' %}
+{% block content %}
+  <h2 class="my-3 text-center">Hospital List</h2>
+  <form method="get" action="{% url "main_app:all_hopsital" %}" class="cool-form my-4">
+    <p>Total Hospitals: {{hospitals.count}}</p>
+    <p>order_by: <input type="text" value={{orderby}} name="orderby"/></p>
+    <p><button type="submit" name="submit" value="submit">Submit</button></p>
+  </form>
+  <div class="row">
+    {% for hosp in hospitals %}
+
+            {% if user.is_authenticated and request.user.user_profile.assigned_hospital.pk %}
+                {% if request.user.user_profile.assigned_hospital.pk != hosp.pk %}
+                    <div class="card mx-1 my-1 col">
+                       <div class="card-body">
+                         <h5 class="card-title">{{hosp.name}}</h5>
+                         <h6 class="card-subtitle mb-2 text-muted"><em>Address</em>: {{hosp.address}}</h6><br>
+                         <h6 class="card-subtitle mb-2 text-muted"><em>Beds</em>: {{hosp.beds}}</h6>
+                         <h6 class="card-subtitle mb-2 text-muted mb-3"><em>Oxygen Cylinders</em>: {{hosp.oxygen_cylinders}}</h6>
+                         <h6 class="card-subtitle mb-2 text-muted mb-3"><em>Wards</em>: {{hosp.wards}}</h6>
+                         <h6 class="card-subtitle mb-2 text-muted mb-3"><em>Patients</em>: {{hosp.oxygen_cylinders}}</h6>
+                         <div class="card-links pb-1">
+                           <a href="{% url "main_app:detail_hospital" pk=hosp.pk %}" class="card-link">Click here to know more</a>
+                         </div>
+                         {% if user.is_authenticated and  request.user.user_profile.is_Citizen %}
+                             <a href="{% url "main_app:citizen_watchlist" pk=hosp.pk %}" class="card-link">Add to watchlist</a>
+                         {% endif %}
+                       </div>
+                     </div>
+                 {% endif %}
+
+            {% else %}
+                <div class="card mx-1 my-1 col">
+                   <div class="card-body">
+                     <h5 class="card-title">{{hosp.name}}</h5>
+                     <h6 class="card-subtitle mb-2 text-muted">{{hosp.address}}</h6>
+                     <h6 class="card-subtitle mb-2 text-muted"><em>Beds</em>: {{hosp.beds}}</h6>
+                     <h6 class="card-subtitle mb-2 text-muted mb-3"><em>Oxygen Cylinders</em>: {{hosp.oxygen_cylinders}}</h6>
+                     <h6 class="card-subtitle mb-2 text-muted mb-3"><em>Wards</em>: {{hosp.wards}}</h6>
+                     <h6 class="card-subtitle mb-2 text-muted mb-3"><em>Patients</em>: {{hosp.oxygen_cylinders}}</h6>
+                     <div class="card-links pb-1">
+                       <a href="{% url "main_app:detail_hospital" pk=hosp.pk %}" class="card-link">Click here to know more</a>
+                     </div>
+                     {% if user.is_authenticated and  request.user.user_profile.is_Citizen %}
+                         <a href="{% url "main_app:citizen_watchlist" pk=hosp.pk %}" class="card-link">Add to watchlist</a>
+                     {% endif %}
+                   </div>
+                 </div>
+
+            {% endif %}
+    {% endfor %}
+  </div>
+  <div class="my-5">&nbsp</div>
+{% endblock %}

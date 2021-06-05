@@ -1,0 +1,28 @@
+{% extends 'main_app/base.html' %}
+{% load static %}
+{% block content %}
+
+    <div class="d-flex justify-content-around" style="margin-top: 20px;">
+      <div>
+          <img src="{% static 'img/logo.png' %}" alt="" class="my-3" style="width: 210px;">
+      </div>
+    </div>
+
+    <div class="d-flex justify-content-around" style="margin-top: 20px;">
+      {% if user.is_authenticated and request.user.user_profile.is_Hospital %}
+          <div class="register-box d-flex align-items-center justify-content-center">
+            <div><a href="{% url 'main_app:create_hospital' pk=request.user.pk %}">Register your Hospital</a></div>
+          </div>
+      {% endif %}
+    </div>
+        <h2 class="my-3 text-center">About Us</h2>
+        <p class="text-center">
+          A portal to inter-connect citizens and hospitals<br>
+          <b>For hospitals:</b><br>
+          The portal connects every other hospital to suffice their logistical needs such as lack of oxygen cylinders,beds etc.<br> The portal also facilitates proper interaction between hospitals by keeping proper track of each hospital's requests(asked/received).Each hospital can look at the status of every other hospital and can accordingly request the hospitals who are in a condition to donate.<br>
+          <b>For citizens:</b><br>
+          The portal also predicts the percentage wise probablity of the user being infected with COVID-19
+          Users can also keep track of the hospitals and add them to the watchlist so that they can keep a track of the hospitals easily.
+        </p>
+    <div class="my-5">&nbsp</div>
+{% endblock %}

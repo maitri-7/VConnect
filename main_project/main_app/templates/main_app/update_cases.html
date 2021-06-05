@@ -1,0 +1,16 @@
+{% extends 'base.html' %}
+{% block content %}
+
+{% if user.is_authenticated %}
+    {% if request.user.user_profile.is_Hospital %}
+    <div style="margin-bottom: 80px">
+      <form class="cool-form" method="POST">
+        {%csrf_token%}
+        {{form.as_p}}
+        <button type="submit" class="btn btn-warning">Submit</button>
+      </form>
+    </div>
+    {% endif %}
+{% endif %}
+
+{% endblock %}

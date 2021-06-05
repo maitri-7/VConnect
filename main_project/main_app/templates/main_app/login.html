@@ -1,0 +1,22 @@
+{% extends 'base.html' %}
+{% block content %}
+
+  <div style="margin-bottom: 300px;">
+    <h2 class="my-3 text-center">Login</h2>
+    <!-- Doubt: Why resgistration.html does not have action in form? -->
+    <form action="{% url 'main_app:login' %}" method="POST" class="cool-form">
+      {% csrf_token %}
+      <p>
+        <label for="username">Username</label>
+        <input type="text" name="username" placeholder="Username">
+      </p>
+      <p>
+        <label for="password">Password</label>
+        <input type="password" name="password" placeholder="Password">
+      </p>
+      <button type="submit" name="" value="Login">Login</button>
+    </form>
+
+  </div>
+
+{% endblock %}

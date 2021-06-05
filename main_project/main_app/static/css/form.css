@@ -1,0 +1,79 @@
+.cool-form {
+    border: 1px solid;
+    border-radius: 5px;
+    padding: 20px;
+}
+.cool-form label {
+    display: block;
+    font-size: 1.1em;
+}
+
+.cool-form label[for^="id_is"]{
+    display: inline;
+    position: absolute;
+}
+.cool-form .helptext{
+    display: block;
+    color: rgb(255, 50, 50)
+}
+.cool-form input{
+    width: 100%;
+    height: 32px;
+    border-radius: 5px;
+    border: 1px solid;
+    padding: 5px;
+}
+.cool-form input[type="checkbox"]{
+    height: 1em;
+    width: unset;
+    margin-left: 25%;
+}
+
+.cool-form select{
+    width: 100%;
+    border-radius: 5px;
+    border: 1px solid;
+    height: 32px;
+}
+
+
+
+.cool-form button{
+    width: 30%;
+    display: block;
+    height: 48px;
+    border-radius: 5px;
+    text-align: center;
+    font-size: 1.2em;
+    font-weight: bold;
+    color: white;
+    background-color: rgb(1, 1, 46);
+}
+
+.cool-form button:hover{
+    opacity: 0.8;
+}
+#user-type {
+    margin-bottom: 10px;
+}
+.card{
+    border-radius: 5px;
+    border:1px solid rgb(1, 1, 46);
+    min-width: 300px;
+}
+.card-links{
+    position: absolute;
+    bottom: 0;
+}
+
+.cool-table{
+    border-collapse: collapse;
+    border: 1px solid rgb(1, 1, 46);
+    border-radius: 5px;
+}
+
+.cool-table th, td{
+    font-size: 1.1em;
+    padding: 5px;
+    border: 1px solid rgb(1, 1, 46);
+}

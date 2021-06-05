@@ -1,0 +1,32 @@
+{% extends 'base.html' %}
+{% block content %}
+
+  <h5 class="my-3 text-center">Your made {{hospital.asked_requests.all.count}} requests</h5>
+  <div class="row d-flex" style="margin-bottom:80px;">
+    {% for request in hospital.asked_requests.all %}
+           <div class="card col-md-4 col-sm-6">
+              <div class="card-body">
+                <h5 class="card-title">Name of the Hospital you requested from: {{request.name_received}}</h5>
+                <h6 class="card-subtitle mb-2 text-muted">Beds Requested</em>: {{request.beds_requested}}</h6>
+                <h6 class="card-subtitle mb-2 text-muted"><em>Oxygen Cylinders Requested</em>: {{request.oxygen_cylinders_requested}}</h6>
+                <br>
+                <br>
+
+                {% if request.approved_status %}
+                    {% if request.is_approved %}
+                        <h5 class="card-subtitle mb-2 text-muted"><b>Status</b>:Accepted </h5>
+                        <h5 class="card-subtitle mb-2 text-muted">You will be notified with further instructions in a while!</h5>
+                    {% else %}
+                        <h5 class="card-subtitle mb-2 text-muted"><b>Status</b>:Declined </h5>
+                        <h5 class="card-subtitle mb-2 text-muted">We are sorry!The hospital you requested from is not in a condition to donate.You may try to contact other hospitals or generate a SOS! Stay Strong!</h5>
+                    {% endif %}
+                {% else %}
+                      <h5 class="card-subtitle mb-2 text-muted"><b>Status</b>:Pending </h5>
+                {% endif %}
+
+              </div>
+            </div>
+    {% endfor %}
+  </div>
+
+{% endblock %}

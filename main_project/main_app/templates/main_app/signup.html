@@ -1,0 +1,33 @@
+{% extends 'base.html' %}
+{% block content %}
+  <h1>SignUp</h1>
+  <h2>Enter Profession</h2>
+
+  {% if not registered %}
+    <div style="margin-bottom:300px;">
+        <form method="post" class="cool-form">
+          <select name='role' id="user-type">
+            <option id="default" selected>Select Operator</option>
+            <option value='hospital' id="hospital-admin">Hospital Admin</option>
+            <option value='citizen' id="general-citizen">General Citizen</option>
+          </select>
+          <div id="form_signup"  style="display: none">
+            {%csrf_token%}
+            {{user_form.as_p}}
+            <div id="hospital_extra" style="display: none">
+                {{user_extra_form.as_p}}
+            </div>
+            <div id="citizen_extra" style="display: none">
+                {{citizen_form.as_p}}
+            </div>
+            <button type="submit" name="button">Submit</button>
+          </div>
+        </form>
+    </div>
+  {% else %}
+    <div style="margin-bottom:300px;">
+        Thank you for registering. You may login Now!
+    </div>
+  {% endif %}
+
+{% endblock %}

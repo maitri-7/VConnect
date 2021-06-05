@@ -1,0 +1,36 @@
+{% extends 'base.html' %}
+{% block content %}
+
+    <div class="card" style="margin-bottom: 159px; margin-top: 20px">
+      <h5 class="card-header">Welcome,{{citizen.user.user.username}}</h5>
+      <div class="card-body">
+        <a href="{% url "main_app:predict_covid" pk=citizen.pk %}" class="btn btn-primary">Get Covid-19 Prediction</a>
+        <p>Before you use the prediction model make sure you update your health details</p>
+        <p>The model used for prediction has a accuracy of 84%.<br>Do not panic.If the model is suggesting you to take any precautions do follow them<br> and consult a doctor.</p>
+        {% if citizen.used_prediction %}
+            <h3>Last calculated Score: {{citizen.prediction_score}}</h3>
+        {% else %}
+            <h3 style="color:red;">Not yet used prediction</h3>
+        {% endif %}
+        <hr color="darkblue">
+        <div style="text-align:center;">
+            <h2>Your Watchlist</h2>
+        </div>
+        <h4>Hospitals added to watchlist: {{citizen.watchlist.all.count}}</h4>
+        {% for hosp in citizen.watchlist.all %}
+               <div class="card col-md-4 col-sm-6">
+                  <div class="card-body">
+                    <h5 class="card-title">{{hosp.name}}</h5>
+                    <h6 class="card-subtitle mb-2 text-muted">{{hosp.address}}</h6>
+                    <h6 class="card-subtitle mb-2 text-muted"><em>Beds</em>: {{hosp.beds}}</h6>
+                    <h6 class="card-subtitle mb-2 text-muted"><em>Oxygen Cylinders</em>: {{hosp.oxygen_cylinders}}</h6>
+                    <a href="{% url "main_app:detail_hospital" pk=hosp.pk %}" class="card-link">Click here to know more</a>
+                  </div>
+                </div>
+        {% endfor %}
+      </div>
+
+    </div>
+
+
+{% endblock %}

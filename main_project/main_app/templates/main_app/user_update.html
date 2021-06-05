@@ -1,0 +1,12 @@
+{% extends 'base.html' %}
+{% block content %}
+    <div style="margin-bottom:150px">
+      <h2>Please update your health details:</h2>
+      <p>It is always recommended to set the appropriate health status before checking your covid status. To avoid false results</p>
+      <form method="post" class="cool-form">
+            {% csrf_token %}
+            {{form.as_p}}
+            <button type="submit" name="button">Submit</button>
+      </form>
+    </div>
+{% endblock %}

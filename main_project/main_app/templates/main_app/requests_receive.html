@@ -1,0 +1,32 @@
+{% extends 'base.html' %}
+{% block content %}
+
+  <h5 class="my-3 text-center">Your received {{hospital.received_requests.all.count}} requests</h5>
+  <div class="row d-flex" style="margin-bottom:80px;">
+    {% for request in hospital.received_requests.all %}
+           <div class="card col-md-4 col-sm-6">
+              <div class="card-body">
+                <h5 class="card-title">Received from: {{request.name_requested}}</h5>
+                <h6 class="card-subtitle mb-2 text-muted"><em>Beds requested</em>: {{request.beds_requested}}</h6>
+                <h6 class="card-subtitle mb-2 text-muted"><em>O2 cylinders requested</em>: {{request.oxygen_cylinders_requested}}</h6>
+                <h6 class="card-subtitle mb-2 text-muted"><em>Email</em>: {{request.contact_email}}</h6>
+                <br>
+
+                {% if request.approved_status %}
+                    {% if request.is_approved %}
+                        <h5 class="card-subtitle mb-2 text-muted"><b>You approved the request</b></h5>
+                        <a type="submit" href="{% url 'main_app:approve_mail' pk=request.pk %}" class="btn btn-outline-success btn-lg btn-block">Send Approval Mail</a>
+                    {% else %}
+                        <h5 class="card-subtitle mb-2 text-muted"><b>You declined the request</b></h5>
+                    {% endif %}
+                {% else %}
+                        <a type="submit" href="{% url 'main_app:approve_request' pk=request.pk %}" class="btn btn-outline-success btn-lg btn-block">Approve</a>
+                        <a type="submit" href="{% url 'main_app:decline_request' pk=request.pk %}" class="btn btn-outline-danger btn-lg btn-block">Decline</a>
+                {% endif %}
+
+              </div>
+            </div>
+    {% endfor %}
+  </div>
+
+{% endblock %}

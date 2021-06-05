@@ -1,0 +1,39 @@
+{% extends 'main_app/base.html' %}
+{% block content %}
+<h2 class="my-3 text-center">Update Your Hospital</h2>
+<table class="my-3 cool-table">
+    <tr>
+        <th>Name</th>
+        <td>{{curr_hospital.name}}</td>
+    </tr>
+    <tr>
+        <th>Beds</th>
+        <td>{{curr_hospital.beds}}</td>
+    </tr>
+    <tr>
+        <th>Oxygen Cylinders</th>
+        <td>{{curr_hospital.oxygen_cylinders}}</td>
+    </tr>
+    <tr>
+        <th>Wards:</th>
+        <td>{{curr_hospital.wards}}</td>
+    </tr>
+    <tr>
+        <th>Number of patients(till date):</th>
+        <td>{{curr_hospital.curr_patients}}</td>
+    </tr>
+</table>
+
+<div style="margin-bottom:300px;">
+    {% if user.is_authenticated %}
+        <form method="POST" class="cool-form">
+            {%csrf_token%}
+            {{form.as_p}}
+            <button type="submit" name="button">Update Hospital</button>
+        </form>
+    {% else %}
+        <h2>You don't have the acces to update this Hospital!</h2>
+    {% endif %}
+</div>
+
+{% endblock %}

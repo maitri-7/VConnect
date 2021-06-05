@@ -1,0 +1,131 @@
+<!DOCTYPE html>
+{% load static %}
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta http-equiv="X-UA-Compatible" content="IE=edge">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/css/bootstrap.min.css" integrity="sha384-ggOyR0iXCbMQv3Xipma34MD+dH/1fQ784/j6cY/iJTQUOhcWr7x9JvoRxT2MZw1T" crossorigin="anonymous">
+  <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/chart.js@2.9.4/dist/Chart.min.css">
+  <link rel="stylesheet" href="{% static 'css/style.css' %}">
+  <link rel="stylesheet" href="{% static 'css/form.css' %}">
+  <title>VConnect</title>
+</head>
+<body>
+
+  <div class="navbar-main" id="myNavbar">
+    <a href="{% url "main_app:landing" %}" class="active">Home</a>
+    {% if user.is_authenticated %}
+        <a href="{% url "main_app:logout" %}">Logout</a>
+    {% else %}
+        <a href="{% url "main_app:create_user" %}">Sign Up</a>
+        <a href="{% url "main_app:login" %}">Login</a>
+    {% endif %}
+    {% if user.is_authenticated and request.user.user_profile.is_Citizen %}
+        <a href="{% url "main_app:citizen_detail" pk=request.user.user_profile.assigned_citizen.pk %}">User Profile</a>
+        <a href="{% url "main_app:citizen_update" pk=request.user.user_profile.assigned_citizen.pk %}">Update Details</a>
+    {% endif %}
+    <a href="{% url "main_app:all_hopsital" %}">Hospitals list</a>
+
+    {% if request.user.user_profile.assigned_hospital.pk %}
+        <a href="{% url "main_app:detail_hospital" pk=request.user.user_profile.assigned_hospital.pk %}">Your Hospital</a>
+        <a href="{% url "main_app:request_received" pk=request.user.user_profile.assigned_hospital.pk %}">Requests Received</a>
+        <a href="{% url "main_app:request_asked" pk=request.user.user_profile.assigned_hospital.pk %}">My Requests</a>
+    {% endif %}
+    <a href="javascript:void(0);" style="font-size:15px;" class="icon" onclick="myFunction()">&#9776;</a>
+  </div>
+
+  <div class="jumbotron jumbotron-fluid">
+    <div class="container">
+      {% if user.is_authenticated %}
+          {% if request.user.user_profile.is_Hospital %}
+              <h1 class="display-4" style="color: azure;">Welcome, <b>{{request.user.user_profile.unit_name}}</b></h1>
+              <p class="lead" style="color: azure;">We Value Your Efforts</p>
+          {% else %}
+              <h1 class="display-4" style="color: azure;">Welcome, <b>{{request.user.username}}</b></h1>
+              <p class="lead" style="color: azure;">Please do keep your health status up to date and keep checking the covid-predcictor score.</p>
+              <p class="lead" style="color: azure;">Stay up-to-date with hospital's status and them to your watchlist to keep track of them easily</p>
+              <p class="lead" style="color: azure;">Stay strong INDIA!</p>
+          {% endif %}
+      {% else %}
+          <h1 class="display-4" style="color: azure;"><b>Login to access all features!</b></h1>
+          <p class="lead" style="color: azure;">This is an official portal to imporve coordination between<br>Hospitals and Supply Chains of India to fight the virus more effectively!</p>
+      {% endif %}
+    </div>
+  </div>
+
+  <div id="quote">
+      Stay Strong India!
+  </div>
+
+  <div class="container">
+
+    {% block content %}
+    {% endblock %}
+
+  </div>
+
+
+
+
+  <script src="{% static 'js/main.js' %}"></script>
+  <script type="text/javascript" src="https://cdn.jsdelivr.net/npm/chart.js@2.9.4/dist/Chart.min.js"></script>
+  <script src="https://code.jquery.com/jquery-3.3.1.slim.min.js" integrity="sha384-q8i/X+965DzO0rT7abK41JStQIAqVgRVzpbzo5smXKp4YfRvH+8abtTE1Pi6jizo" crossorigin="anonymous"></script>
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.14.7/umd/popper.min.js" integrity="sha384-UO2eT0CpHqdSJQ6hJty5KVphtPhzWj9WO1clHTMGa3JDZwrnQq4sF86dIHNDz0W1" crossorigin="anonymous"></script>
+  <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/js/bootstrap.min.js" integrity="sha384-JjSmVgyd0p3pXB1rRibZUAYoIIy6OrQ6VrjIEaFf/nJGzIxFDsf4x0xIM+B07jRM" crossorigin="anonymous"></script>
+
+  <script>
+      window.onscroll = function() {mySecondFunction()};
+
+      var quote = document.getElementById("quote");
+      var sticky = quote.offsetTop;
+
+      function mySecondFunction() {
+        if (window.pageYOffset >= sticky) {
+          quote.classList.add("sticky")
+        } else {
+          quote.classList.remove("sticky");
+        }
+      }
+
+      function myFunction() {
+        var x = document.getElementById("myNavbar");
+        if (x.className === "navbar-main") {
+          x.className += " responsive";
+        } else {
+          x.className = "navbar-main";
+        }
+      }
+
+      function activateHospital() {
+          var dropdown = document.getElementById("dropdownMenuButton")
+          var hosp_form = document.getElementById("hospital_extra")
+          var citizen_form = document.getElementById("citizen_extra")
+
+      }
+
+      $(document).ready(function() {
+        $('#user-type').change(function(){
+          if(this.selectedIndex == 1){
+            $('#form_signup').show()
+            $('#hospital_extra').show()
+            $('#citizen_extra').hide()
+          }else if(this.selectedIndex == 2){
+            $('#form_signup').show()
+            $('#citizen_extra').show()
+            $('#hospital_extra').show()
+          }else{
+            $('#form_signup').hide()
+            // $('#hospital_extra').hide()
+            // $('#citizen_extra').hide()
+          }
+        })
+      })
+
+
+      {% block script %}
+      {% endblock %}
+  </script>
+
+  </body>
+</html>
