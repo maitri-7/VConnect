@@ -25,5 +25,9 @@ urlpatterns = [
     path('hospital_update/<int:pk>',views.HospitalUpdateView.as_view(),name='hospital_update'),
     path('update_cases/',views.DateCaseCreateView.as_view(),name='hospital_update_form'),
     path('approve_mail/<int:pk>',views.sendApprovalMail,name="approve_mail"),
+    path('add_comment_form/<int:pk>',views.AddCommentCreateView.as_view(),name="add_comment_form"),
+    path('daily_cases',views.DailyCasesTemplateView.as_view(),name="daily_cases"),
+
+
 
 ]

@@ -1,0 +1,20 @@
+{% extends 'base.html' %}
+{% block content %}
+
+<div style="margin-bottom:300px;">
+    {% if user.is_authenticated and request.user.user_profile.is_Citizen %}
+      <h2 class="my-3 text-center">Add your review</h2>
+
+      <form method="POST" class="cool-form">
+          {%csrf_token%}
+          {{form.as_p}}
+
+          <button type="submit" name="button">Submit Review</button>
+      </form>
+    {% else %}
+    <h2>You must login as a citizen to add a review</h2>
+    {% endif %}
+
+</div>
+
+{% endblock %}

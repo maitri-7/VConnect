@@ -26,6 +26,7 @@
         <a href="{% url "main_app:citizen_update" pk=request.user.user_profile.assigned_citizen.pk %}">Update Details</a>
     {% endif %}
     <a href="{% url "main_app:all_hopsital" %}">Hospitals list</a>
+    <a href="{% url "main_app:daily_cases" %}">Daily-Cases</a>
 
     {% if request.user.user_profile.assigned_hospital.pk %}
         <a href="{% url "main_app:detail_hospital" pk=request.user.user_profile.assigned_hospital.pk %}">Your Hospital</a>
@@ -124,6 +125,9 @@
 
 
       {% block script %}
+      {% endblock %}
+
+      {% block covid_cases %}
       {% endblock %}
   </script>
 

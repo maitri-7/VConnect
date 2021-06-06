@@ -1,6 +1,6 @@
 from django.shortcuts import render,get_object_or_404,redirect
-from main_app.forms import HospitalForm,UserForm,UserExtraForm,RequestForm,DateCaseForm,CitizenForm
-from main_app.models import Hospital, UserModel, RequestModel, DateCaseModel, CitizenModel
+from main_app.forms import HospitalForm,UserForm,UserExtraForm,RequestForm,DateCaseForm,CitizenForm,ReviewForm
+from main_app.models import Hospital, UserModel, RequestModel, DateCaseModel, CitizenModel,ReviewModel
 from django.views.generic import TemplateView,CreateView,ListView,DetailView,UpdateView
 from django.contrib.auth import authenticate,login,logout
 from django.http import HttpResponseRedirect, HttpResponse
@@ -15,6 +15,9 @@ from django.conf import settings
 # Create your views here.
 class Landingview(TemplateView):
     template_name = "landing.html"
+
+class DailyCasesTemplateView(TemplateView):
+    template_name = "daily_cases.html"
 
 class HospitalListView(ListView):
     model = Hospital
@@ -275,3 +278,17 @@ def sendApprovalMail(request,pk):
     ,[request_main.contact_email],fail_silently=False,)
 
     return HttpResponseRedirect(reverse_lazy('main_app:landing'))
+
+class AddCommentCreateView(CreateView):
+    model = ReviewModel
+    form_class = ReviewForm
+    template_name='add_comment_form.html'
+
+    def form_valid(self,form):
+        hosp_id = self.kwargs.get('pk')
+        hospital_curr = get_object_or_404(Hospital,pk=hosp_id)
+        new_comment = form.save(commit=False)
+        new_comment.author = self.request.user.username
+        new_comment.save()
+        hospital_curr.review_hospital.add(new_comment)
+        return super(AddCommentCreateView, self).form_valid(form)

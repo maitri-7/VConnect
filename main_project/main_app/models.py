@@ -4,6 +4,7 @@ from django.urls import reverse_lazy, reverse
 from django.utils import timezone
 import datetime
 import joblib
+from django.core.validators import MinValueValidator, MaxValueValidator
 from phone_field import PhoneField
 
 # Create your models here.
@@ -115,6 +116,16 @@ class DateCaseModel(models.Model):
 
     def __str__(self):
         return "{}-{}".format(self.date,self.cases)
+
+    def get_absolute_url(self):
+        return reverse("main_app:landing")
+
+class ReviewModel(models.Model):
+    comments = models.CharField(max_length=200,null=True)
+    hospital = models.ForeignKey(Hospital,on_delete=models.CASCADE,null=True,related_name='review_hospital')
+    author = models.CharField(max_length=200)
+    rating = models.IntegerField(validators=[MinValueValidator(0),
+                                       MaxValueValidator(5)],null=True)
 
     def get_absolute_url(self):
         return reverse("main_app:landing")

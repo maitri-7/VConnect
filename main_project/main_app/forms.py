@@ -1,6 +1,6 @@
 from django import forms
 from django.contrib.auth.models import User
-from main_app.models import Hospital,UserModel,RequestModel,DateCaseModel,CitizenModel
+from main_app.models import Hospital,UserModel,RequestModel,DateCaseModel,CitizenModel,ReviewModel
 
 
 class HospitalForm(forms.ModelForm):
@@ -39,3 +39,8 @@ class UserExtraForm(forms.ModelForm):
     class Meta():
         model = UserModel
         fields = ('unit','unit_name')
+
+class ReviewForm(forms.ModelForm):
+    class Meta():
+        model = ReviewModel
+        fields = ('comments','rating')

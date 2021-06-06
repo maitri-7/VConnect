@@ -1,0 +1,88 @@
+{% extends 'base.html' %}
+{% block content %}
+
+<div class="container">
+        <select id="state" class="p-2 m-2">
+            <option selected>Choose Your State</option>
+        </select>
+        <select id="city" class="p-2 m-2" disabled>
+            <option selected>Choose Your City</option>
+        </select>
+    </div>
+    <div class="container-fluid row smooth-hide" id="cases">
+        <div class="card text-center col m-3" style="width: 18rem;">
+            <div class="card-body">
+            <h5 class="card-title text-primary">Active</h5>
+            <p class="card-text" id="cases-active">N/A</p>
+            </div>
+        </div>
+        <div class="card text-center col m-3" style="width: 18rem;">
+            <div class="card-body">
+            <h5 class="card-title text-warning">Confirmed</h5>
+            <p class="card-text" id="cases-confirmed"> N/A</p>
+            </div>
+        </div>
+        <div class="card text-center col m-3" style="width: 18rem;">
+            <div class="card-body">
+            <h5 class="card-title text-success">Recovered</h5>
+            <p class="card-text" id="cases-recovered">N/A</p>
+            </div>
+        </div>
+        <div class="card text-center col m-3" style="width: 18rem;">
+            <div class="card-body">
+            <h5 class="card-title text-danger">Deaths</h5>
+            <p class="card-text" id="cases-deceased">N/A</p>
+            </div>
+        </div>
+    </div>
+
+{% endblock %}
+
+{% block covid_cases %}
+async function loadData()
+{
+  let url = "https://api.covid19india.org/state_district_wise.json";
+  let req = await fetch(url);
+  let body = await req.json();
+  let key = Object.keys(body);
+  for(let i in key){
+    if(key[i] != "State Unassigned")
+    {
+        $('#state').append('<option value="'+ i + '">' + key[i] + '</option>')
+    }
+
+  }
+  return body;
+}
+
+
+loadData()
+.then(function(data){
+    let state;
+    $("#state").on("change", function(){
+        state = this.options[this.selectedIndex].text;
+        $('#city').html('<option selected>Choose Your City</option>')
+        let key = Object.keys(data[state]['districtData'])
+        for(let i in key)
+        {
+            $('#city').append('<option value="'+ i + '">' + key[i] + '</option>')
+        }
+        $('#city').prop('disabled', false);
+    })
+
+    $("#city").on("change", function(){
+        let city = this.options[this.selectedIndex].text;
+        let ref = data[state]['districtData'][city];
+        $('#cases').addClass('smooth-show')
+        let active = ref.active;
+        let confirmed = ref.confirmed;
+        let recovered = ref.recovered;
+        let deceased = ref.deceased || 0;
+        $("#cases-active").text(active);
+        $("#cases-confirmed").text(confirmed);
+        $("#cases-recovered").text(recovered);
+        $("#cases-deceased").text(deceased);
+    })
+
+});
+{% endblock %}
