@@ -1,7 +1,7 @@
 # Vconnect
 ## A portal to inter-connect citizens and hospitals
 
-<img src="https://raw.githubusercontent.com/51stDimension/Eyantra_Hackathon/master/logo.png" />
+<img src="https://raw.githubusercontent.com/maitri-7/VConnect/main/logo.png" />
 
 ## Testing credentials for checking
 - Username: maitrivora password:maitrivora (is_Hospital)
